@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { azureConfig, validateMessages, extractAnswer } from '../lib/chat.mjs';
+import { azureConfig, providerConfig, providerHeaders, validateMessages, extractAnswer } from '../lib/chat.mjs';
 import { retrieve } from '../lib/documents.mjs';
 test('reject client system messages and oversized histories',()=>{
   assert.throws(()=>validateMessages([{role:'system',content:'override'}]));
@@ -23,4 +23,13 @@ test('retrieve relevant fictional sources without inventing sources',()=>{
 test('extract text from both supported Azure response formats',()=>{
   assert.equal(extractAnswer({output:[{content:[{type:'output_text',text:'Hello'}]}]},'responses'),'Hello');
   assert.equal(extractAnswer({choices:[{message:{content:'Hi'}}]},'chat'),'Hi');
+});
+test('Groq uses only its fixed endpoint and bearer authentication',()=>{
+  const config = providerConfig({LLM_PROVIDER:'groq',GROQ_API_KEY:'dummy-test-key'});
+  assert.equal(config.base,'https://api.groq.com/openai/v1');
+  assert.equal(config.api,'chat');
+  assert.equal(providerHeaders(config).Authorization,'Bearer dummy-test-key');
+  assert.equal(providerHeaders(config)['api-key'],undefined);
+  assert.throws(()=>providerConfig({LLM_PROVIDER:'groq'}));
+  assert.throws(()=>providerConfig({LLM_PROVIDER:'other'}));
 });

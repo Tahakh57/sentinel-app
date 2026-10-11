@@ -1,0 +1,8 @@
+.env*
+node_modules/
+.next/
+.npm-cache/
+preview.png
+tests/
+Dockerfile
+compose.yaml

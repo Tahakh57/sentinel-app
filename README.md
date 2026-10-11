@@ -1,5 +1,9 @@
 # Sentinel chat demo
 
+## Groq provider
+
+Set `LLM_PROVIDER=groq`, `DEMO_MODE=false`, and `GROQ_API_KEY` in your ignored `.env.local`. Default model: `openai/gpt-oss-120b`; override with `GROQ_MODEL`. `GROQ_MAX_OUTPUT_TOKENS` defaults to 2048. The Groq endpoint is fixed server-side and uses bearer authentication. Azure remains available via `LLM_PROVIDER=azure`. Recreate the container after changing settings. Provider credentials are not sent to the browser or copied into Docker images. Live chat sends your conversation and retrieved fictional context to the selected provider. Groq account rate limits apply.
+
 Next.js chat UI with server-side Azure OpenAI calls and keyword retrieval over four fictional security documents. No paid vector database or embedding API is required. This is a chat/RAG demo, not the full monitoring appliance.
 
 ## Run in Docker

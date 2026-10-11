@@ -19,3 +19,4 @@ pnpm-debug.log*
 
 # local deployment output
 /build/
+.vercel
